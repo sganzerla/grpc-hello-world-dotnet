@@ -34,9 +34,33 @@ Adicionar os dois projetos a inicialização da solução (ou rodar ambos separa
 
 ### No Server
 
-- Adicionar método rpc dentro do arquivo [greet.proto](GrpcService/GrpcClient/../GrpcService/Protos/greet.proto) 
+- Adicionar método rpc dentro do arquivo [greet.proto](GrpcService/GrpcClient/../GrpcService/Protos/greet.proto)
+
+        service Greeter {
+            // Sends a greeting
+            rpc SayHello (HelloRequest) returns (HelloReply);
+            rpc GetPwTalks(GetPwTalksRequest) returns (stream GetPwTalksResponse);
+        }
+
 - Buildar a aplicação para gerar o contrato automaticamente
 - Expor o método em uma classe de serviço como essa [GreeterService](GrpcService/GrpcService/Services/GreeterService.cs)
+
+        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+        {
+            return Task.FromResult(new HelloReply
+            {
+                Message = "Hello " + request.Name
+            });
+        }
+
+        public override async Task GetPwTalks(GetPwTalksRequest request, IServerStreamWriter<GetPwTalksResponse> response, ServerCallContext serverCall)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                await Task.Delay(1000);
+                await response.WriteAsync(new GetPwTalksResponse { Talk = $"GRPC {i}" });
+            }
+        }
 
 ### No client
 
