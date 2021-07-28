@@ -42,21 +42,21 @@ Adicionar os dois projetos a inicialização da solução (ou rodar ambos separa
 
 - Criar client e chamar os métodos definidos em contrato
 
-    using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-    var client = new Greeter.GreeterClient(channel);
+        using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+        var client = new Greeter.GreeterClient(channel);
 
-    // metodo A
-    var reply = await client.SayHelloAsync(new HelloRequest { Name = "GreeterClient Message" });
-    Console.WriteLine("Greeting: " + reply.Message);
-    Console.WriteLine("Press any key to exit ...");
-    Console.ReadKey();
+        // metodo A
+        var reply = await client.SayHelloAsync(new HelloRequest { Name = "GreeterClient Message" });
+        Console.WriteLine("Greeting: " + reply.Message);
+        Console.WriteLine("Press any key to exit ...");
+        Console.ReadKey();
 
-    // metodo B (stream)
-    using var call = client.GetPwTalks(new GetPwTalksRequest { Day = 2 });
-    while (await call.ResponseStream.MoveNext())
-    {
-        Console.WriteLine("Greeting: " + call.ResponseStream.Current.Talk);
-    }
+        // metodo B (stream)
+        using var call = client.GetPwTalks(new GetPwTalksRequest { Day = 2 });
+        while (await call.ResponseStream.MoveNext())
+        {
+            Console.WriteLine("Greeting: " + call.ResponseStream.Current.Talk);
+        }
 
 ## Fonte
 
