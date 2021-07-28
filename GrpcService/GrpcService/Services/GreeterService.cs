@@ -1,8 +1,5 @@
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GrpcService
@@ -22,5 +19,15 @@ namespace GrpcService
                 Message = "Hello " + request.Name
             });
         }
+
+        public override async Task GetPwTalks(GetPwTalksRequest request, IServerStreamWriter<GetPwTalksResponse> response, ServerCallContext serverCall)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                await Task.Delay(1000);
+                await response.WriteAsync(new GetPwTalksResponse { Talk = $"GRPC {i}" });
+            }
+        }
+
     }
 }

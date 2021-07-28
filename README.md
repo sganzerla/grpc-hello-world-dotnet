@@ -30,6 +30,18 @@ Adicionar os dois projetos a inicialização da solução (ou rodar ambos separa
 
 ![image](resources/server-and-client.png)
 
+## Como criar outros métodos
+
+    ### No Server
+
+    - Adicionar método rpc dentro do arquivo [greet.proto](GrpcService/GrpcClient/../GrpcService/Protos/greet.proto) 
+    - Buildar a aplicação para gerar o contrato automaticamente
+    - Expor o método em uma classe de serviço como essa [GreeterService](GrpcService/GrpcService/Services/GreeterService.cs)
+
+    ### No client
+
+    - 
+
 ## Fonte
 
 COGNIZANT SOFTVISION Youtube by [Building a gRPC service with .NET Core](https://youtu.be/5jsp1pN9nVg)
