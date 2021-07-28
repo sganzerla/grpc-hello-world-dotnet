@@ -32,15 +32,31 @@ Adicionar os dois projetos a inicialização da solução (ou rodar ambos separa
 
 ## Como criar outros métodos
 
-    ### No Server
+### No Server
 
-    - Adicionar método rpc dentro do arquivo [greet.proto](GrpcService/GrpcClient/../GrpcService/Protos/greet.proto) 
-    - Buildar a aplicação para gerar o contrato automaticamente
-    - Expor o método em uma classe de serviço como essa [GreeterService](GrpcService/GrpcService/Services/GreeterService.cs)
+- Adicionar método rpc dentro do arquivo [greet.proto](GrpcService/GrpcClient/../GrpcService/Protos/greet.proto) 
+- Buildar a aplicação para gerar o contrato automaticamente
+- Expor o método em uma classe de serviço como essa [GreeterService](GrpcService/GrpcService/Services/GreeterService.cs)
 
-    ### No client
+### No client
 
-    - 
+- Criar client e chamar os métodos definidos em contrato
+
+    using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+    var client = new Greeter.GreeterClient(channel);
+
+    // metodo A
+    var reply = await client.SayHelloAsync(new HelloRequest { Name = "GreeterClient Message" });
+    Console.WriteLine("Greeting: " + reply.Message);
+    Console.WriteLine("Press any key to exit ...");
+    Console.ReadKey();
+
+    // metodo B (stream)
+    using var call = client.GetPwTalks(new GetPwTalksRequest { Day = 2 });
+    while (await call.ResponseStream.MoveNext())
+    {
+        Console.WriteLine("Greeting: " + call.ResponseStream.Current.Talk);
+    }
 
 ## Fonte
 
