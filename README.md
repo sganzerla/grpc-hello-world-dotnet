@@ -2,31 +2,26 @@
 
 ## Criando Server
 
-    dotnet new grpc -n Backend
+    dotnet new grpc -F net5.0 -n Backend
     mv .\Backend\Protos\ .\ 
 
-Alterar o path do Protobuf no projeto `Backend.csproj` para um nível acima na hierarquia de diretórios.
+Alterar o path no `<ItemGroup>` do Protobuf no projeto `Backend.csproj` para um nível acima na hierarquia de diretórios.
 
     <Project Sdk="Microsoft.NET.Sdk.Web">
+
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
-
     <ItemGroup>
-        <Protobuf Include="..\Protos\greet.proto" GrpcServices="Server" />
+        <Protobuf Include="..\Proto\greet.proto" GrpcServices="Server" Link="Protos\greet.proto" />
+
+        <PackageReference Include="Grpc.AspNetCore" Version="$(GrpcDotNetPackageVersion)" />
     </ItemGroup>
 
-
-    <ItemGroup>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
-    </ItemGroup>
     </Project>
 
 ## Criando Client
 
     dotnet new web -n Frontend
-    
 

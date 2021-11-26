@@ -1,21 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Grpc.Core;
-using Backend;
+using Microsoft.Extensions.Logging;
 
-namespace Backend.Services;
-
-public class GreeterService : Greeter.GreeterBase
+namespace Backend
 {
-    private readonly ILogger<GreeterService> _logger;
-    public GreeterService(ILogger<GreeterService> logger)
+    public class GreeterService : Greeter.GreeterBase
     {
-        _logger = logger;
-    }
-
-    public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
-    {
-        return Task.FromResult(new HelloReply
+        private readonly ILogger<GreeterService> _logger;
+        public GreeterService(ILogger<GreeterService> logger)
         {
-            Message = "Hello " + request.Name
-        });
+            _logger = logger;
+        }
+
+        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+        {
+            return Task.FromResult(new HelloReply
+            {
+                Message = "Hello " + request.Name
+            });
+        }
     }
 }
